@@ -1,23 +1,8 @@
-# P.Z. Tassu ci jak
-# inspired by: https://datatofish.com/json-string-to-csv-python/
-# https://stackoverflow.com/questions/61631955/python-requests-ssl-error-during-requests
-
-
-import pandas as pd
-
-import http.client
-import json
-import requests
-
 import requests
 import ssl
 from urllib3 import poolmanager
-import skuska_json_to as converter
 
-
-# url, payload, headers ziskaj z Postmana
-
-url = "https://snina.digitalnemesto.sk/DmApi/fakturyDodavatelske?_dc=1666199922124&organizaciaId=157&year=0&page=1&start=0&limit=25"
+url = "https://snina.digitalnemesto.sk/DmApi/fakturyDodavatelske?_dc=1667327215227&organizaciaId=157&year=2022&page=1&start=0&limit=25"
 
 payload={}
 headers = {
@@ -38,13 +23,7 @@ headers = {
 
 
 
-# edit TLS adapter (ak tento krok preskocime, dostaneme error)
-# vysvetlenie: digitalnemesto.sk pouziva zastaraly protokol,
-# preto je potrebne prisposobit TLS adapter pre danu stranku
-# viac na:
-# # https://stackoverflow.com/questions/61631955/python-requests-ssl-error-during-requests
 
-# https://www.openssl.org/docs/man1.1.1/man3/SSL_CTX_set_security_level.html
 class TLSAdapter(requests.adapters.HTTPAdapter):
 
     def init_poolmanager(self, connections, maxsize, block=False):
@@ -62,13 +41,6 @@ session = requests.session()
 session.mount('https://', TLSAdapter())
 res = session.request("GET", url, headers=headers, data=payload)
 
-
-# converter.JSON_to_CSVfile(Json_obj,"my_filename")
-
-# output >> my_filename.csv
-converter.JSON_to_CSVfile(json.loads(res.text),"skuska2")
-
-
-
-# CSV file to Excel
-converter.CSVfile_to_Excelfile("skuska2")
+print(res)
+client_context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+print(client_context.security_level)
