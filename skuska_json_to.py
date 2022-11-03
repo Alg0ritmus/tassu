@@ -5,11 +5,24 @@
 
 import csv
 import pandas as pd
+import json
+
+
+def get_ICOs_JSON(my_json,name_of_output_file):
+	my_set = set()
+	for i in my_json["Data"]:
+		my_set.add(i["DodavatelIco"])
+
+	my_set_as_dic={"Qty":len(my_set),"ICOs":list(my_set)}
+	JSON_ICOs=json.dumps(my_set_as_dic)
+
+	with open(name_of_output_file+".json","w", newline="") as f:
+		f.write(JSON_ICOs)
 
 
 
 def JSON_to_CSVfile(my_json,name_of_output_file="out"):
-	with open(name_of_output_file+".csv","a", newline="") as f:
+	with open(name_of_output_file+".csv","w", newline="") as f:
 		writer= csv.writer(f)
 
 		metadate_temp_touple = ()

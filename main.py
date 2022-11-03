@@ -63,12 +63,14 @@ session.mount('https://', TLSAdapter())
 res = session.request("GET", url, headers=headers, data=payload)
 
 
-# converter.JSON_to_CSVfile(Json_obj,"my_filename")
+
+
+converter.get_ICOs_JSON(json.loads(res.text),"ICA_skuska")
 
 # output >> my_filename.csv
-converter.JSON_to_CSVfile(json.loads(res.text),"skuska2")
+#converter.JSON_to_CSVfile(json.loads(res.text),"skuska2")
 
 
 
 # CSV file to Excel
-converter.CSVfile_to_Excelfile("skuska2")
+
